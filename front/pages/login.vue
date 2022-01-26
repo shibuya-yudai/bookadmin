@@ -19,32 +19,31 @@
 </template>
 
 <script>
-  export default {
-    data: function () {
-      return {
-        email: '',
-        password: '',
-        error: null,
-      }
-    },
-    methods: {
-      async login() {
-          await this.$auth.loginWith('local', {
-            data: {
-              password: this.password,
-              email: this.email
-            }
-          })
-          .then(
-            (response) => {
-            },
-            (error) => {
-              this.error = error.response.data.errors
-            }
-          )
-      }
+export default {
+  data () {
+    return {
+      email: '',
+      password: '',
+      error: null
+    }
+  },
+  methods: {
+    async login () {
+      await this.$auth.loginWith('local', {
+        data: {
+          password: this.password,
+          email: this.email
+        }
+      }).then(
+        (response) => {
+        },
+        (error) => {
+          this.error = error.response.data.errors
+        }
+      )
     }
   }
+}
 </script>
 
 <style></style>
