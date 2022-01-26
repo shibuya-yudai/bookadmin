@@ -1,0 +1,12 @@
+{
+	"generators": {
+		"48ea79a8": {
+			"type": "local",
+			"path": "/app/.npm/_npx/3465ea9841b00618/node_modules/create-nuxt-app/lib",
+			"hash": "48ea79a8"
+		}
+	},
+	"answers": {
+		"48ea79a8__npm__": {}
+	}
+}
