@@ -1,8 +1,9 @@
 <template>
-  <b-container>
-    <b-col offset-md="1" md="10" class="mt-3">
+  <div class="container-fluid bg-primary">
+    <!--
+    <b-col offset-md="1" md="10" class="mt-0">
         <b-jumbotron class="pb-5">
-          <template #header>Hello World!</template>
+          <template #header>book administrator!!</template>
           <div v-if="this.$auth.loggedIn">
             <h2>ログイン済み</h2>
           </div>
@@ -16,29 +17,29 @@
           <b-button v-if="this.$auth.loggedIn" variant="danger" @click="logout">ログアウト</b-button>
         </b-jumbotron>
     </b-col>
-  </b-container>
+    -->
+  </div>
 </template>
 
 <script>
-  export default({
-    data: function () {
-      return {
-      }
-    },
-    methods: {
-      async logout() {
-        await this.$auth.logout()
-        .then(
-          ()=>{
-            localStorage.removeItem("access-token")
-            localStorage.removeItem("client")
-            localStorage.removeItem("uid")
-            localStorage.removeItem("token-type")
-          }
-        )
-      }
-    },
-  })
+export default ({
+  data () {
+    return {
+    }
+  },
+  methods: {
+    async logout () {
+      await this.$auth.logout().then(
+        () => {
+          localStorage.removeItem('access-token')
+          localStorage.removeItem('client')
+          localStorage.removeItem('uid')
+          localStorage.removeItem('token-type')
+        }
+      )
+    }
+  }
+})
 </script>
 
 <style></style>
