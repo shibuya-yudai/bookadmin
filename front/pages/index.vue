@@ -11,6 +11,7 @@
           <b-navbar-nav>
             <b-nav-item v-if="!this.$auth.loggedIn" href="/signup">Sign Up</b-nav-item>
             <b-nav-item v-if="!this.$auth.loggedIn" href="/login">Login</b-nav-item>
+            <b-nav-item v-if="this.$auth.loggedIn" href="/addbooks">Add Books</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -37,9 +38,10 @@
     <b-container fluid class="hero p-0 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
       <h2 class="text-light">You can manage narages in this site!</h2>
-      <p class="text-light">hello {{user.name}}</p>
+      <p class="text-light">hello {{user}}</p>
     </b-container>
-    <p class="text-dark">{{user}}</p>
+    <p>{{this.$auth.loggedIn}}</p>
+    <p>{{user}}</p>
     <div>
 
     </div>
@@ -50,11 +52,16 @@
 export default ({
   data () {
     return {
+      user: []
     }
   },
-  computed: {
-    user () {
-      return this.$auth.$storage.getUniversal('user')
+  mounted () {
+    if (this.$auth.loggedIn) {
+      this.$axios.$get('/api/auth/user').then(
+        (res) => {
+          this.user = res
+        }
+      )
     }
   },
   methods: {
@@ -65,6 +72,7 @@ export default ({
           localStorage.removeItem('client')
           localStorage.removeItem('uid')
           localStorage.removeItem('token-type')
+          this.user = []
         }
       )
     }
