@@ -35,7 +35,14 @@ export default {
           email: this.email
         }
       }).then(
-        (response) => {
+        (res) => {
+          let user = res.data.data // getting user (yours can be different)
+          this.$auth.$storage.setUniversal('user', user) // setting user in Vuex, cookies and localstorage
+
+          user = this.$auth.$storage.getUniversal('user') // getting user (you can use it anywhere in your app)
+          console.log(user) // checking user
+
+          this.$router.push('/') // redirecting after login
         },
         (error) => {
           this.error = error.response.data.errors

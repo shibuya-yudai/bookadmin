@@ -37,9 +37,9 @@
     <b-container fluid class="hero p-0 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
       <h2 class="text-light">You can manage narages in this site!</h2>
-      <p class="text-light">hello {{$store.state.auth.user}}</p>
+      <p class="text-light">hello {{user}}</p>
     </b-container>
-    <p class="text-dark">{{$auth.user}}</p>
+    <p class="text-dark">{{user}}</p>
   </div>
 </template>
 
@@ -51,7 +51,9 @@ export default ({
   },
   computed: {
     user () {
-      return this.$auth.user
+      const currentUser = this.$auth.$storage.getUniversal('user')
+      console.log(currentUser)
+      return currentUser
     }
   },
   methods: {
