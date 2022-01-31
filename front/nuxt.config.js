@@ -66,7 +66,7 @@ export default {
           //ログアウト処理に関する設定
           logout: { url: '/api/auth/sign_out', method: 'delete' },
           //ログイン時にユーザー情報を保存するか。
-          user: false
+          user:{ url: '/api/auth/user', method: 'get', propertyName: 'user' }
          },
        }
      },
