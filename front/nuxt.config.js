@@ -20,10 +20,6 @@ export default {
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -66,7 +62,7 @@ export default {
           //ログアウト処理に関する設定
           logout: { url: '/api/auth/sign_out', method: 'delete' },
           //ログイン時にユーザー情報を保存するか。
-          user:{ url: '/api/auth/user', method: 'get', propertyName: 'user' }
+          user: false//{ url: '/api/auth/user', method: 'get' }
          },
        }
      },

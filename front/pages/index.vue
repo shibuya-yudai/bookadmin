@@ -11,6 +11,7 @@
           <b-navbar-nav>
             <b-nav-item v-if="!this.$auth.loggedIn" href="/signup">Sign Up</b-nav-item>
             <b-nav-item v-if="!this.$auth.loggedIn" href="/login">Login</b-nav-item>
+            <!--<b-nav-item v-if="this.$auth.loggedIn" href="/addbooks">Add Books</b-nav-item>-->
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -19,7 +20,7 @@
             <b-nav-item-dropdown right v-if="this.$auth.loggedIn">
               <!-- Using 'button-content' slot -->
               <template #button-content>
-                <em>User</em>
+                <em>{{user.name}}</em>
               </template>
               <b-dropdown-item href="#" disabled>Profile</b-dropdown-item>
               <b-nav-item v-if="this.$auth.loggedIn" href="/update">Edit Account Info</b-nav-item>
@@ -39,7 +40,16 @@
       <h2 class="text-light">You can manage narages in this site!</h2>
       <p class="text-light">hello {{user}}</p>
     </b-container>
-    <p class="text-dark">{{user}}</p>
+    <div>
+      <!--
+        <p v-for="book in books" :key="book.id">
+        {{book}}
+      </p>-->
+      <p>
+        {{books}}
+      </p>
+      <b-btn v-if="this.$auth.loggedIn" @click="addbook">add books</b-btn>
+    </div>
   </div>
 </template>
 
@@ -47,16 +57,28 @@
 export default ({
   data () {
     return {
+      user: [],
+      books: []
     }
   },
-  computed: {
-    user () {
-      const currentUser = this.$auth.$storage.getUniversal('user')
-      console.log(currentUser)
-      return currentUser
+  mounted () {
+    if (this.$auth.loggedIn) {
+      this.$axios.$get('/api/auth/user').then(
+        (res) => {
+          this.user = res
+        }
+      )
+      this.getbooks()
     }
   },
   methods: {
+    getbooks () {
+      this.$axios.$get('/api/auth/books').then(
+        (res) => {
+          this.books = res
+        }
+      )
+    },
     async logout () {
       await this.$auth.logout().then(
         () => {
@@ -64,6 +86,18 @@ export default ({
           localStorage.removeItem('client')
           localStorage.removeItem('uid')
           localStorage.removeItem('token-type')
+          this.user = []
+          this.books = []
+        }
+      )
+    },
+    addbook () {
+      this.$axios.post('/books', {
+        user_id: this.user.id
+      }).then(
+        (res) => {
+          console.log('success!: ' + res)
+          this.getbooks()
         }
       )
     }
