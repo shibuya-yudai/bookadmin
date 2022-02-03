@@ -38,25 +38,42 @@
     <b-container fluid class="hero p-0 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
       <h2 class="text-light">You can manage narages in this site!</h2>
-      <p class="text-light">hello {{user}}</p>
+      <p class="text-light">hello {{user.name}} !!</p>
     </b-container>
-    <div>
-      <!--
-        <p v-for="book in books" :key="book.id">
-        {{book}}
-      </p>-->
-      <p>
-        {{books}}
-      </p>
-      <b-btn v-if="this.$auth.loggedIn" @click="addbook">add books</b-btn>
-    </div>
+    <b-container class="p-0 mt-3 d-flex flex-column align-items-center justify-content-center">
+      <!-- Content here -->
+      <b-row>
+        <b-col class="col-md-3" v-for="book in books" :key="book.id">
+          <div class="card w-100">
+            <img src="https://source.unsplash.com/CXYPfveiuis" class="card-img-top" alt="">
+            <div class="card-body">
+              <h5 class="card-title">{{book.title}}</h5>
+              <p class="card-text">{{book.description}}</p>
+              <button type="button" class="btn btn-primary" @click="openModal(book)">
+                more
+              </button>
+              <modal :book="postItem" v-show="showContent" @close="closeModal" />
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+      <div>
+        <b-btn v-if="this.$auth.loggedIn" @click="addbook">add books</b-btn>
+      </div>
+    </b-container>
   </div>
 </template>
 
 <script>
+import Modal from '~/components/Modal.vue'
 export default ({
+  components: {
+    Modal
+  },
   data () {
     return {
+      showContent: false,
+      postItem: '',
       user: [],
       books: []
     }
@@ -100,6 +117,13 @@ export default ({
           this.getbooks()
         }
       )
+    },
+    openModal (book) {
+      this.showContent = true
+      this.postItem = book
+    },
+    closeModal () {
+      this.showContent = false
     }
   }
 })
