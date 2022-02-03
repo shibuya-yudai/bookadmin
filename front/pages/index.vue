@@ -49,6 +49,10 @@
             <div class="card-body">
               <h5 class="card-title">{{book.title}}</h5>
               <p class="card-text">{{book.description}}</p>
+              <button type="button" class="btn btn-primary" @click="openModal(book)">
+                more
+              </button>
+              <modal :book="postItem" v-show="showContent" @close="closeModal" />
             </div>
           </div>
         </b-col>
@@ -61,9 +65,15 @@
 </template>
 
 <script>
+import Modal from '~/components/Modal.vue'
 export default ({
+  components: {
+    Modal
+  },
   data () {
     return {
+      showContent: false,
+      postItem: '',
       user: [],
       books: []
     }
@@ -107,6 +117,13 @@ export default ({
           this.getbooks()
         }
       )
+    },
+    openModal (book) {
+      this.showContent = true
+      this.postItem = book
+    },
+    closeModal () {
+      this.showContent = false
     }
   }
 })
