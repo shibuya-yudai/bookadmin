@@ -27,7 +27,7 @@
           </div>
         </b-col>
       </b-row>
-      <div>
+      <div class="mt-3">
         <b-btn v-if="this.$auth.loggedIn" @click="addbook">add books</b-btn>
       </div>
     </b-container>
