@@ -37,7 +37,7 @@
     <!--hero-->
     <b-container fluid class="hero p-0 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
-      <h2 class="text-light">You can manage narages in this site!</h2>
+      <h2 class="text-light">You can manage knowledge in this site!</h2>
       <p class="text-light">hello {{user.name}} !!</p>
     </b-container>
     <b-container class="p-0 mt-3 d-flex flex-column align-items-center justify-content-center">
@@ -93,6 +93,7 @@ export default ({
       this.$axios.$get('/api/auth/books').then(
         (res) => {
           this.books = res
+          // console.log(this.books)
         }
       )
     },
@@ -109,9 +110,7 @@ export default ({
       )
     },
     addbook () {
-      this.$axios.post('/books', {
-        user_id: this.user.id
-      }).then(
+      this.$axios.post('/api/auth/books').then(
         (res) => {
           console.log('success!: ' + res)
           this.getbooks()
@@ -124,6 +123,7 @@ export default ({
     },
     closeModal () {
       this.showContent = false
+      this.getbooks()
     }
   }
 })

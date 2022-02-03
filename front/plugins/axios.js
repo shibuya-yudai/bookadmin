@@ -14,7 +14,7 @@ export default function ({ $axios, isDev }) {
       localStorage.setItem('token-type', response.headers['token-type'])
     }
     if (isDev) {
-      console.log(response)
+      // console.log(response)
     }
   })
 }

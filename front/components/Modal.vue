@@ -3,8 +3,11 @@
   <div id="overlay">
     <div id="content">
       <!--<img :src="val.img_src">-->
-      <p>説明：{{ book }}</p>
+      <p>{{book}}</p>
+      <b-form-input v-model="title" placeholder="Enter book's title."></b-form-input>
+      <b-form-input v-model="description" placeholder="Enter book's description."></b-form-input>
       <button @click="$emit('close')">閉じる</button>
+      <button @click="updateBookInfo()">保存</button>
     </div>
   </div>
 </template>
@@ -12,7 +15,27 @@
 <script>
 export default {
   name: 'Modal',
-  props: ['book']
+  props: ['book'],
+  data () {
+    return {
+      title: '',
+      description: ''
+    }
+  },
+  methods: {
+    updateBookInfo () {
+      this.$axios.patch('/books/' + this.book.id, {
+        title: this.title,
+        description: this.description
+      }).then(
+        (res) => {
+          console.log('success!: ' + res)
+          this.title = ''
+          this.description = ''
+        }
+      )
+    }
+  }
 }
 </script>
 
