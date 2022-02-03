@@ -6,6 +6,7 @@
       <p>{{book}}</p>
       <b-form-input v-model="title" placeholder="Enter book's title."></b-form-input>
       <b-form-input v-model="description" placeholder="Enter book's description."></b-form-input>
+      <button @click="movePage()">詳細</button>
       <button @click="$emit('close')">閉じる</button>
       <button @click="updateBookInfo()">保存</button>
       <button @click="deleteBook(); $emit('close')">この本を削除する</button>
@@ -43,6 +44,12 @@ export default {
           console.log('success!: ' + res)
         }
       )
+    },
+    movePage () {
+      this.$router.push({
+        path: 'book-edit',
+        query: { id: this.book.id }
+      })
     }
   }
 }
