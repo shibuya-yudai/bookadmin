@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     get '/auth/user', to: 'sessions#user'
     get '/auth/books', to: 'sessions#books'
+    get '/auth/books/:id', to: 'sessions#showbook'
   end
 end

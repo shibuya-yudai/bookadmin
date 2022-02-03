@@ -13,7 +13,7 @@
     <b-container class="p-0 mt-3 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
       <b-row>
-        {{this.$route.query.id}}
+        {{book}}
       </b-row>
     </b-container>
   </div>
@@ -27,10 +27,8 @@ export default ({
   },
   data () {
     return {
-      showContent: false,
-      postItem: '',
       user: [],
-      books: []
+      book: []
     }
   },
   mounted () {
@@ -40,21 +38,14 @@ export default ({
           this.user = res
         }
       )
-    }
-  },
-  methods: {
-    async logout () {
-      await this.$auth.logout().then(
-        () => {
-          localStorage.removeItem('access-token')
-          localStorage.removeItem('client')
-          localStorage.removeItem('uid')
-          localStorage.removeItem('token-type')
-          this.user = []
-          this.books = []
+      this.$axios.$get('/api/auth/books/' + this.$route.query.id).then(
+        (res) => {
+          this.book = res
         }
       )
     }
+  },
+  methods: {
   }
 })
 </script>
