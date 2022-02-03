@@ -110,7 +110,9 @@ export default ({
       )
     },
     addbook () {
-      this.$axios.post('/api/auth/books').then(
+      this.$axios.post('/books', {
+        user_id: this.user.id
+      }).then(
         (res) => {
           console.log('success!: ' + res)
           this.getbooks()

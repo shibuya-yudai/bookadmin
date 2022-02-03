@@ -8,6 +8,7 @@
       <b-form-input v-model="description" placeholder="Enter book's description."></b-form-input>
       <button @click="$emit('close')">閉じる</button>
       <button @click="updateBookInfo()">保存</button>
+      <button @click="deleteBook(); $emit('close')">この本を削除する</button>
     </div>
   </div>
 </template>
@@ -32,6 +33,14 @@ export default {
           console.log('success!: ' + res)
           this.title = ''
           this.description = ''
+        }
+      )
+    },
+    deleteBook () {
+      this.$axios.delete('/books/' + this.book.id, {
+      }).then(
+        (res) => {
+          console.log('success!: ' + res)
         }
       )
     }
