@@ -24,8 +24,8 @@
       </b-row>
       <b-row class="mt-3">
         <b-col>
-          <div v-for="chapter in chapters" :key="chapter.id">
-            {{chapter.id}}
+          <div v-for="chapter in chapters" :key="chapter.position">
+            {{chapter}}
           </div>
         </b-col>
       </b-row>
@@ -71,9 +71,14 @@ export default ({
       )
     },
     addchapter () {
+      let addPosition = 0
+      if (this.chapters !== []) {
+        addPosition = this.chapters.length
+      }
       this.$axios.post('/chapters', {
         book_id: this.book.id,
-        title: 'chapter title'
+        title: 'chapter title',
+        position: addPosition
       }).then(
         (res) => {
           console.log('success!: ' + res)
