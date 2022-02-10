@@ -60,7 +60,9 @@ export default ({
         return this.newTitle
       },
       set (val) {
-        this.newTitle = val
+        if (val !== '') {
+          this.newTitle = val
+        }
       }
     }
   },
