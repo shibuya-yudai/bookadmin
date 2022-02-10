@@ -10,5 +10,6 @@ Rails.application.routes.draw do
     get '/auth/user', to: 'sessions#user'
     get '/auth/books', to: 'sessions#books'
     get '/auth/books/:id', to: 'sessions#showbook'
+    get '/auth/chapter/:book_id', to: 'sessions#showchapter'
   end
 end

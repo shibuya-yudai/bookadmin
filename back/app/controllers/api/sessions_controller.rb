@@ -15,4 +15,9 @@ class Api::SessionsController < ApplicationController
     end
     render json: @book
   end
+
+  def showchapter
+    @chapter = Chapter.where(book_id: params[:book_id])
+    render json: @chapter
+  end
 end

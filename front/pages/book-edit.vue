@@ -25,7 +25,7 @@
     </b-container>
     <b-container fluid class="p-0 d-flex flex-column align-items-center justify-content-center">
       <b-row class="mt-3 w-100">
-        <b-col class="col-12">
+        <b-col class="col-12 p-0">
           <div v-for="chapter in chapters" :key="chapter.position">
             <chapter :chapter="chapter" @reload="getChapters" @reloadposition="reloadChapterPosition"/>
           </div>
@@ -60,14 +60,14 @@ export default ({
       this.$axios.$get('/api/auth/books/' + this.$route.query.id).then(
         (res) => {
           this.book = res
+          this.getChapters()
         }
       )
-      this.getChapters()
     }
   },
   methods: {
     getChapters () {
-      this.$axios.$get('/chapters').then(
+      this.$axios.$get('/api/auth/chapter/' + this.book.id).then(
         (res) => {
           this.chapters = res
           this.reloadChapterPosition()
