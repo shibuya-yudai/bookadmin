@@ -2,7 +2,12 @@
 <template>
   <div class="chapter d-flex flex-row">
     <p class="mr-3">chapter0{{chapter.position}}</p>
-    <p class="chapter-title">{{chapter.title}}</p>
+    <template v-if="f">
+      <input v-model="tmpTitle" @keyup.enter="setTitle" @blur="setTitle" ref="r1" />
+    </template>
+    <template v-else>
+      <span class="chapter-title" @click="c">{{tmpTitle}}</span>
+    </template>
     <p class="ml-auto mr-3">理解度 100%</p>
     <!--
     <b-btn @click="addChapter">
@@ -38,11 +43,26 @@ export default ({
   props: ['chapter'],
   data () {
     return {
-      chapters: []
+      chapters: [],
+      newTitle: '',
+      f: false
     }
   },
   mounted () {
     // this.getChapters()
+  },
+  computed: {
+    tmpTitle: {
+      get () {
+        if (!this.newTitle) {
+          return this.chapter.title
+        }
+        return this.newTitle
+      },
+      set (val) {
+        this.newTitle = val
+      }
+    }
   },
   methods: {
     addchapter () {
@@ -67,6 +87,19 @@ export default ({
           console.log('success!: ' + res)
           this.$emit('reload')
           this.$emit('reloadposition')
+        }
+      )
+    },
+    c () {
+      this.f = true
+      this.$nextTick(function () { this.$refs.r1.focus() })
+    },
+    setTitle () {
+      this.f = false
+      this.$axios.patch('/chapters/' + this.chapter.id, {
+        title: this.newTitle
+      }).then(
+        (res) => {
         }
       )
     }
