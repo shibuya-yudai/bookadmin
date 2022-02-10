@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :chapters
+  patch '/chapters', to: 'chapters#sort'
   resources :books
   devise_for :users
   namespace :api do

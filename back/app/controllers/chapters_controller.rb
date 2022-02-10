@@ -24,6 +24,16 @@ class ChaptersController < ApplicationController
     end
   end
 
+  # PATCH /chapters
+  def sort
+    params[:chapter].each_with_index do |t,i|
+      @chapter = Chapter.find(t[:id])
+      @chapter.update( position: i+1 )
+    end
+    render json: {result: "ok"}
+    #ここがちゃんと機能すれば、consoleでokが表示されます。
+  end
+
   # PATCH/PUT /chapters/1
   def update
     if @chapter.update(chapter_params)
