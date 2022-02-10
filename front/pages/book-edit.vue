@@ -13,7 +13,21 @@
     <b-container class="p-0 mt-3 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
       <b-row>
-        {{book}}
+        <b-col class="col-md-4">
+          <img src="https://source.unsplash.com/CXYPfveiuis" class="card-img-top" alt="">
+        </b-col>
+        <b-col class="col-md-8">
+          <h2 class="text-center">{{book.title}}</h2>
+          <p>{{book.description}}</p>
+          <b-btn v-if="this.$auth.loggedIn" @click="addchapter">add chapter</b-btn>
+        </b-col>
+      </b-row>
+      <b-row class="mt-3">
+        <b-col>
+          <div v-for="chapter in chapters" :key="chapter.id">
+            {{chapter.id}}
+          </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -28,7 +42,8 @@ export default ({
   data () {
     return {
       user: [],
-      book: []
+      book: [],
+      chapters: []
     }
   },
   mounted () {
@@ -43,9 +58,29 @@ export default ({
           this.book = res
         }
       )
+      this.getchapters()
     }
   },
   methods: {
+    getchapters () {
+      this.$axios.$get('/chapters').then(
+        (res) => {
+          this.chapters = res
+          console.log(this.chapters)
+        }
+      )
+    },
+    addchapter () {
+      this.$axios.post('/chapters', {
+        book_id: this.book.id,
+        title: 'chapter title'
+      }).then(
+        (res) => {
+          console.log('success!: ' + res)
+          this.getchapters()
+        }
+      )
+    }
   }
 })
 </script>
