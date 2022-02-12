@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <div class="chapter d-flex flex-row">
+    <div class="chapter d-flex flex-row" v-bind:style='{backgroundColor: color}'>
       <p class="mr-3">chapter0{{chapter.position}}</p>
       <template v-if="f">
         <input v-model="tmpTitle" @keyup.enter="setTitle" @blur="setTitle" ref="r1" />
@@ -9,7 +9,7 @@
       <template v-else>
         <span class="chapter-title" @click="c">{{tmpTitle}}</span>
       </template>
-      <p class="ml-auto mr-3">理解度 100%</p>
+      <p class="ml-auto mr-3">理解度 {{understand_persent}}%</p>
       <b-btn class="plus-btn mr-3" @click="addSection">
         <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,17 @@ export default ({
     return {
       sections: [],
       newTitle: '',
-      f: false
+      understand_persent: 0,
+      f: false,
+      colors: {
+        gray: '#f0f0f0',
+        green: 'rgb(177, 237, 135)',
+        blue: 'rgb(135, 230, 237)',
+        yellow: 'rgb(223, 237, 135)',
+        orange: 'rgb(237, 196, 135)',
+        red: 'rgb(237, 135, 135)'
+      },
+      color: ''
     }
   },
   mounted () {
@@ -79,6 +89,44 @@ export default ({
         (res) => {
           this.sections = res
           this.reloadSectionPosition()
+          if (this.sections.length !== 0) {
+            let sum = 0
+            this.sections.forEach((element) => {
+              sum += element.understand_rate
+            })
+            this.understand_persent = (sum / (this.sections.length * 5)) * 100
+          } else {
+            this.understand_persent = 0
+          }
+          switch (true) {
+            case this.understand_persent < 20: {
+              this.color = this.colors.gray
+              break
+            }
+            case this.understand_persent < 40: {
+              this.color = this.colors.green
+              break
+            }
+            case this.understand_persent < 60: {
+              this.color = this.colors.blue
+              break
+            }
+            case this.understand_persent < 80: {
+              this.color = this.colors.yellow
+              break
+            }
+            case this.understand_persent < 100: {
+              this.color = this.colors.orange
+              break
+            }
+            case this.understand_persent === 100: {
+              this.color = this.colors.red
+              break
+            }
+            default: {
+              this.color = this.colors.gray
+            }
+          }
         }
       )
     },

@@ -58,6 +58,7 @@ export default ({
         understand_rate: this.starValue
       }).then(
         (res) => {
+          this.$emit('reload')
         }
       )
     }
