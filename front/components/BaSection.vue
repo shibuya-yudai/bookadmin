@@ -8,7 +8,8 @@
     <template v-else>
       <span class="section-title" @click="c">{{tmpTitle}}</span>
     </template>
-    <b-btn class="trash-btn ml-auto" @click="deleteSection">
+    <b-form-rating class="ml-auto" v-model="starValue" ></b-form-rating>
+    <b-btn class="trash-btn" @click="deleteSection">
       <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -29,7 +30,8 @@ export default ({
   data () {
     return {
       newTitle: '',
-      f: false
+      f: false,
+      starValue: this.section.understand_rate
     }
   },
   mounted () {
@@ -48,6 +50,16 @@ export default ({
           this.newTitle = val
         }
       }
+    }
+  },
+  watch: {
+    starValue () {
+      this.$axios.patch('/sections/' + this.section.id, {
+        understand_rate: this.starValue
+      }).then(
+        (res) => {
+        }
+      )
     }
   },
   methods: {
@@ -97,7 +109,14 @@ export default ({
 .bi-trash,.bi-plus-circle{
   color: black;
 }
+.bi-star, .bi-star-fill{
+  color: rgb(250, 200, 0);
+}
 .trash-btn,.plus-btn{
   background-color: transparent;
+}
+.form-control{
+  width: initial;
+  border: none;
 }
 </style>
