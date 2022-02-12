@@ -65,7 +65,7 @@ export default ({
       this.$axios.$get('/api/auth/books').then(
         (res) => {
           this.books = res
-          // console.log(this.books)
+          console.log(this.books)
         }
       )
     },

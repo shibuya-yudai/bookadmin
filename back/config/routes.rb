@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :chapters
+  patch '/chapters', to: 'chapters#sort'
   resources :books
   devise_for :users
   namespace :api do
@@ -7,5 +9,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     get '/auth/user', to: 'sessions#user'
     get '/auth/books', to: 'sessions#books'
+    get '/auth/books/:id', to: 'sessions#showbook'
+    get '/auth/chapter/:book_id', to: 'sessions#showchapter'
   end
 end

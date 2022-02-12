@@ -13,7 +13,23 @@
     <b-container class="p-0 mt-3 d-flex flex-column align-items-center justify-content-center">
       <!-- Content here -->
       <b-row>
-        {{this.$route.query.id}}
+        <b-col class="col-md-4">
+          <img src="https://source.unsplash.com/CXYPfveiuis" class="card-img-top" alt="">
+        </b-col>
+        <b-col class="col-md-8">
+          <h2 class="text-center">{{book.title}}</h2>
+          <p>{{book.description}}</p>
+          <b-btn v-if="this.$auth.loggedIn" @click="addchapter">add chapter</b-btn>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container fluid class="p-0 d-flex flex-column align-items-center justify-content-center">
+      <b-row class="mt-3 w-100">
+        <b-col class="col-12 p-0">
+          <div v-for="chapter in chapters" :key="chapter.position">
+            <chapter :chapter="chapter" @reload="getChapters" @reloadposition="reloadChapterPosition"/>
+          </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -21,16 +37,17 @@
 
 <script>
 import GlobalHeader from '~/components/GlobalHeader.vue'
+import Chapter from '~/components/Chapter.vue'
 export default ({
   components: {
-    GlobalHeader
+    GlobalHeader,
+    Chapter
   },
   data () {
     return {
-      showContent: false,
-      postItem: '',
       user: [],
-      books: []
+      book: [],
+      chapters: []
     }
   },
   mounted () {
@@ -40,18 +57,44 @@ export default ({
           this.user = res
         }
       )
+      this.$axios.$get('/api/auth/books/' + this.$route.query.id).then(
+        (res) => {
+          this.book = res
+          this.getChapters()
+        }
+      )
     }
   },
   methods: {
-    async logout () {
-      await this.$auth.logout().then(
-        () => {
-          localStorage.removeItem('access-token')
-          localStorage.removeItem('client')
-          localStorage.removeItem('uid')
-          localStorage.removeItem('token-type')
-          this.user = []
-          this.books = []
+    getChapters () {
+      this.$axios.$get('/api/auth/chapter/' + this.book.id).then(
+        (res) => {
+          this.chapters = res
+          this.reloadChapterPosition()
+        }
+      )
+    },
+    addchapter () {
+      let addPosition = 1
+      if (this.chapters !== []) {
+        addPosition = this.chapters.length + 1
+      }
+      this.$axios.post('/chapters', {
+        book_id: this.book.id,
+        title: 'chapter title',
+        position: addPosition
+      }).then(
+        (res) => {
+          this.getChapters()
+        }
+      )
+    },
+    reloadChapterPosition () {
+      this.$axios.patch('/chapters', {
+        chapter: this.chapters
+      }).then(
+        (res) => {
+          console.log(res)
         }
       )
     }
