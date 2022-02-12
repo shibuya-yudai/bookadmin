@@ -94,7 +94,7 @@ export default ({
         chapter: this.chapters
       }).then(
         (res) => {
-          console.log(res)
+          // console.log(res)
         }
       )
     }
