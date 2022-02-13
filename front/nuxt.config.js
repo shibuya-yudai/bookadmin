@@ -45,7 +45,9 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "http://localhost:3000"
+    //baseURL: "http://localhost:3000",
+    //ベストプラクティスとしてはURLを環境変数で設定した方が良いですが、今回は手直しします。
+    baseURL: "https://bookadministrator-api.net"
   },
   plugins: [
     '~/plugins/axios.js'
