@@ -20,10 +20,6 @@ export default {
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -43,6 +39,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
   ],
+  bootstrapVue: {
+    icons: true
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -66,7 +65,7 @@ export default {
           //ログアウト処理に関する設定
           logout: { url: '/api/auth/sign_out', method: 'delete' },
           //ログイン時にユーザー情報を保存するか。
-          user: false
+          user: false//{ url: '/api/auth/user', method: 'get' }
          },
        }
      },

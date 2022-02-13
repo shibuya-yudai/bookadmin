@@ -10,7 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_053419) do
+ActiveRecord::Schema.define(version: 2022_02_12_070713) do
+
+  create_table "books", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_books_on_user_id"
+  end
+
+  create_table "chapters", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title"
+    t.text "memo"
+    t.bigint "book_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "position"
+    t.index ["book_id"], name: "index_chapters_on_book_id"
+  end
+
+  create_table "sections", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title"
+    t.integer "understand_rate"
+    t.integer "important_rate"
+    t.text "memo"
+    t.bigint "chapter_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "position"
+    t.index ["chapter_id"], name: "index_sections_on_chapter_id"
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -37,4 +68,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_053419) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "books", "users"
+  add_foreign_key "chapters", "books"
+  add_foreign_key "sections", "chapters"
 end
