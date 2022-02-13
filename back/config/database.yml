@@ -15,5 +15,8 @@ test:
   database: app_test
 
 production:
-  <<: *default
-  database: app_production
+  <<:         *default
+      database: app_production
+  host:       <%= Rails.application.credentials.rds[:host] %>
+  username:   <%= Rails.application.credentials.rds[:username] %>
+  password:   <%= Rails.application.credentials.rds[:password] %>
